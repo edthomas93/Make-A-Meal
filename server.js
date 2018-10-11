@@ -6,7 +6,7 @@ const url = "mongodb://eddyt993:mongopa55word1@ds125713.mlab.com:25713/ingredien
 
 app.use(bodyParser.urlencoded({extended: true}))
 
-MongoClient.connect(url, (err, database) => {
+MongoClient.connect(url, { useNewUrlParser: true }, (err, database) => {
   if (err) return console.log(err);
 
   var db = database.db('ingredients')
@@ -17,11 +17,15 @@ MongoClient.connect(url, (err, database) => {
       res.sendFile('/Users/edwardthomas/Projects/PostCourse/Make-A-Meal/index.html')
     })
     app.post('/next', (req, res) => {
-      db.collection('ingredients').save(req.body, (err, result) => {
+      db.collection('ingredients').insertOne(req.body, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/')
       })
+    })
+    app.get('/', (req, res) => {
+      var cursor = db.collection('quotes').find()
+      console.log(cursor)
     })
   })
 })
