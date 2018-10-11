@@ -7,9 +7,11 @@
   <body>
     <h1>Make A Meal</h1>
       <h2>New Ingredients:</h2>
-      <label for="name">Ingredients: </label><input type="text" />
-      <button id="submit">Submit</button>
-      <br />
+      <form action="/next" method="POST">
+        <br>Ingredients <input type="text" placeholder="Enter New Ingredients" name="name"></br>
+        <br>Quantity <input type="number" placeholder="Enter Quantity" name="quantity"></br>
+        <br><button type="submit">Submit</button></br>
+      </form>
       <br>Current ingredients:</br>
       <ul id="ingredients"></ul>
   </body>
