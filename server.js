@@ -2,10 +2,8 @@ const express = require('express');
 const app = express();
 const bodyParser= require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+const axios = require('axios');
 const dbUrl = "mongodb://eddyt993:mongopa55word1@ds125713.mlab.com:25713/ingredients";
-const http = new XMLHttpRequest();
-const apiUrl = "https://api.edamam.com/";
 const app_id = "8117fe3c";
 const app_key = "855add853369ee83cc0e41420027dd32";
 
@@ -33,12 +31,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/recipes/find', (req, res) => {
-  const url = apiUrl + app_id + app_key
-  http.open("GET", `https://api.edamam.com/search?q=chicken&app_id=8117fe3c&app_key=855add853369ee83cc0e41420027dd32&from=0&to=3&calories=591-722&health=alcohol-free`);
-  http.send();
-  http.onreadystatechange = () => {
-    console.log(http.responseText);
-  }
+  axios.get(`https://api.edamam.com/search?q=chicken&app_id=${app_id}&app_key=${app_key}&from=0&to=3&calories=591-722&health=alcohol-free`)
+  .then(function (response) {
+    console.log(response.data.hits);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
   res.render('recipes.ejs');
 });
 
