@@ -8,7 +8,6 @@ const http = new XMLHttpRequest();
 const apiUrl = "https://www.food2fork.com/api/search?key=";
 const API_KEY = "a02f0d0eaec32741c5756fb68f6981de";
 
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -33,6 +32,12 @@ app.get('/', (req, res) => {
 })
 
 app.get('/recipes/find', (req, res) => {
+  const url = apiUrl + API_KEY
+  http.open("GET", url);
+  http.send();
+  http.onreadystatechange = () => {
+    console.log(http.responseText)
+  }
   res.render('recipes.ejs');
 });
 
