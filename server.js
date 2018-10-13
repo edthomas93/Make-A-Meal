@@ -5,8 +5,9 @@ const MongoClient = require('mongodb').MongoClient;
 const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 const dbUrl = "mongodb://eddyt993:mongopa55word1@ds125713.mlab.com:25713/ingredients";
 const http = new XMLHttpRequest();
-const apiUrl = "https://www.food2fork.com/api/search?key=";
-const API_KEY = "a02f0d0eaec32741c5756fb68f6981de";
+const apiUrl = "https://api.edamam.com/";
+const app_id = "8117fe3c";
+const app_key = "855add853369ee83cc0e41420027dd32";
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
@@ -32,11 +33,11 @@ app.get('/', (req, res) => {
 })
 
 app.get('/recipes/find', (req, res) => {
-  const url = apiUrl + API_KEY
-  http.open("GET", url);
+  const url = apiUrl + app_id + app_key
+  http.open("GET", `https://api.edamam.com/search?q=chicken&app_id=8117fe3c&app_key=855add853369ee83cc0e41420027dd32&from=0&to=3&calories=591-722&health=alcohol-free`);
   http.send();
   http.onreadystatechange = () => {
-    console.log(http.responseText)
+    console.log(http.responseText);
   }
   res.render('recipes.ejs');
 });
