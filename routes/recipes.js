@@ -17,16 +17,14 @@ function findRecipes() {
 
 function iterateIngredients(ingredients) {
   for (key in ingredients){
-    console.log(ingredients[key].name)
-    getRecipes();
+    getRecipes(ingredients[key].name);
   }
 }
 
-function getRecipes() {
-  axios.get(`https://api.edamam.com/search?q=chicken&app_id=${app_id}&app_key=${app_key}&from=0&to=3`)
+function getRecipes(ingredient) {
+  axios.get(`https://api.edamam.com/search?q=${ingredient}&app_id=${app_id}&app_key=${app_key}&from=0&to=3`)
   .then(function (response) {
     console.log(response.data.hits);
-    findRecipes();
   })
   .catch(function (error) {
     console.log(error);
