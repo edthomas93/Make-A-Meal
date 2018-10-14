@@ -3,7 +3,10 @@
 <% if (recipes) { %>
   <% for(var i=0; i<recipes.length; i++) {%>
         <li class="ingredients">
-          <span><%= recipes[i].recipe.label %></span>
+          <div>
+            <span><%= recipes[i].recipe.label %></span>
+            <img src='<%= recipes[i].recipe.image %>'>
+          </div>
         </li>
       <% } %>
 <% } %>
