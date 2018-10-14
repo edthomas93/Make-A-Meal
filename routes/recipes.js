@@ -6,29 +6,32 @@ const app_key = "855add853369ee83cc0e41420027dd32";
 const ingredientsModel = require('../models/ingredientsModel')
 
 router.get('/find', (req, res) => {
-  findRecipes();
-  res.render('recipes.ejs');
+  ingredientsModel.getIngredients()
+  .then(result => getRecipes(result[0].name))
+  .then(recipes => res.render('recipes.ejs', {recipes: recipes.data.hits}))
 });
 
 function findRecipes() {
-  ingredientsModel.getIngredients()
-  .then(result => iterateIngredients(result))
 }
 
-function iterateIngredients(ingredients) {
-  for (key in ingredients){
-    getRecipes(ingredients[key].name);
-  }
-}
+// function iterateIngredients(ingredients) {
+//   var recipes = [];
+//   for (key in ingredients){
+//     recipes.push(getRecipes(ingredients[key].name));
+//   }
+//   console.log('Recipes :', recipes);
+// }
 
 function getRecipes(ingredient) {
-  axios.get(`https://api.edamam.com/search?q=${ingredient}&app_id=${app_id}&app_key=${app_key}&from=0&to=3`)
-  .then(function (response) {
-    console.log(response.data.hits);
+  return new Promise((resolve, reject) => {
+    axios.get(`https://api.edamam.com/search?q=${ingredient}&app_id=${app_id}&app_key=${app_key}&from=0&to=3`)
+    .then(function (response) {
+      resolve(response)
+    })
+    .catch(function (error) {
+      reject(error)
+    });
   })
-  .catch(function (error) {
-    console.log(error);
-  });
 }
 
 module.exports = router;
