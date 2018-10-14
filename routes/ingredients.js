@@ -7,12 +7,10 @@ router.get('/', (req, res) => {
   .then(result => res.render('index.ejs', {ingredients: result}))
 })
 
-// router.post('/ingredients/new', (req, res) => {
-//   db.collection('ingredients').insertOne(req.body, (err, result) => {
-//     if (err) return console.log(err)
-//     console.log('saved to database')
-//     res.redirect('/')
-//   })
-// })
+router.post('/new', (req, res) => {
+  console.log('anything')
+  ingredientsModel.postIngredients(req.body)
+  .then(res.redirect('/'))
+})
 
 module.exports = router;

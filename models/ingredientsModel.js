@@ -21,4 +21,17 @@ function getIngredients(){
   })
 }
 
+function postIngredients(ingredient){
+  return new Promise((resolve, reject) => {
+    db.collection('ingredients').insertOne(ingredient, (err, result) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
 module.exports.getIngredients = getIngredients;
+module.exports.postIngredients = postIngredients;
