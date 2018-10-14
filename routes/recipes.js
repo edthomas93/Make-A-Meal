@@ -19,7 +19,13 @@ router.get('/find', (req, res) => {
 
 function findRecipes() {
   ingredientsModel.getIngredients()
-  .then(result => console.log(result))
+  .then(result => iterateIngredients(result))
+}
+
+function iterateIngredients(ingredients) {
+  for (key in ingredients){
+    console.log(ingredients[key].name)
+  }
 }
 
 module.exports = router;
