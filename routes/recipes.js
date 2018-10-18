@@ -7,20 +7,18 @@ const ingredientsModel = require('../models/ingredientsModel')
 
 router.get('/find', (req, res) => {
   ingredientsModel.getIngredients()
-  .then(result => getRecipes(result[0].name))
-  .then(recipes => res.render('recipes.ejs', {recipes: recipes.data.hits}))
+    .then(result => iterateIngredients(result));
+  // .then(result => getRecipes(result[0].name))
+  // .then(recipes => res.render('recipes.ejs', {recipes: recipes.data.hits}))
 });
 
-function findRecipes() {
+async function iterateIngredients(ingredients) {
+  const promises = ingredients.map(ingredient => {
+    getRecipes(ingredient.name);
+  })
+  await Promise.all(promises);
+  console.log('Recipes :', promises);
 }
-
-// function iterateIngredients(ingredients) {
-//   var recipes = [];
-//   for (key in ingredients){
-//     recipes.push(getRecipes(ingredients[key].name));
-//   }
-//   console.log('Recipes :', recipes);
-// }
 
 function getRecipes(ingredient) {
   return new Promise((resolve, reject) => {
